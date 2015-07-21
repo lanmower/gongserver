@@ -42,17 +42,22 @@ return [
         						'rules' => array (
                                         ['class' => 'yii\rest\UrlRule',
                                             'controller' => 'site',
-                                            'extraPatterns' => ['GET test' => 'test'],
+                                            'extraPatterns' => ['GET test' => 'test', 'GET login'=>'login'],
                                             //'extraPatterns' => ['OPTIONS test' => 'options']
                                         ],
-                                        'GET site/test'=>'site/test',
-                                        'site/test'=>'site/allow',
+                                    'POST site/login'=>'site/login',
+                                    'site/login'=>'site/allow',
+                                    'POST site/logout'=>'site/logout',
+                                    'site/logout'=>'site/allow',
+                                    'site/test'=>'site/allow',
                                         ['class' => 'yii\rest\UrlRule',
                                             'controller' => 'post',
+                                            'pluralize'=>false,
                                             'extraPatterns' => ['GET search' => 'search']
                                         ],
                                         ['class' => 'yii\rest\UrlRule',
                                             'controller' => 'page',
+                                            'pluralize'=>false,
                                             'extraPatterns' => ['GET search' => 'search']
                                         ],
         								'<controller:\w+>/<id:\d+>' => '<controller>/view',

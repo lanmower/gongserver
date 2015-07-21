@@ -37,7 +37,7 @@ class SiteController extends Controller
                 'class' => \yii\filters\Cors::className(),
                 'cors' => [
                     'Origin' => ['http://localhost:3000','http://advanced'],
-                    'Access-Control-Request-Headers' => ['X-Wsse', 'Content-Type'],
+                    'Access-Control-Request-Headers' => ['X-Wsse', 'Content-Type','Authorization'],
                     'Access-Control-Allow-Credentials' => true,
                     'Access-Control-Max-Age' => 3600,
                     // Allow the X-Pagination-Current-Page header to be exposed to the browser.
@@ -75,7 +75,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['post', 'options'],
                     'login' => ['post', 'options', 'get'],
                     'test' => ['get', 'options'],
                     'allow' => ['options']
