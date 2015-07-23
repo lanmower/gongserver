@@ -1,0 +1,6 @@
+RewriteEngine On
+
+# Uncomment the following, if you want speaking URL
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ $1/index.php
