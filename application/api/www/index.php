@@ -10,6 +10,5 @@ $config = yii\helpers\ArrayHelper::merge(
 	require(__DIR__ . '/../config/common.php'),
 	require(__DIR__ . '/../config/api.php')
 );
-
 $application = new yii\web\Application($config);
 $application->run();
