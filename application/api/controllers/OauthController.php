@@ -31,7 +31,7 @@ class OauthController extends DefaultController
         $ret = parent::actionToken();
         $cookies = Yii::$app->response->cookies;
 
-        $cookies->add(new \yii\web\Cookie(['name'=>'auth', 'value'=>$ret,'httpOnly'=>true]));
+        //$cookies->add(new \yii\web\Cookie(['name'=>'auth', 'value'=>$ret,'httpOnly'=>true]));
 
         return $ret;
     }

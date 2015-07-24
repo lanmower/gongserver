@@ -8,13 +8,14 @@ return [
 
     'components' => [
 		'urlManager' => [
-			'enablePrettyUrl' => true,
+			//'enablePrettyUrl' => true,
 			'rules' => [
                 'OPTIONS /oauth2/<action:\w+>' => 'oauth/options',
 				'POST /oauth2/<action:\w+>' => 'oauth/<action>',
 				[
 					'class' => 'yii\rest\UrlRule',
 					'controller' => 'v1/post',
+
 					'extraPatterns' => [
 						//'GET custom' => 'custom',
 						//'GET protected' => 'protected',
@@ -23,18 +24,20 @@ return [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'v1/page',
+                    'pluralize' => false,
                     'extraPatterns' => [
                         'GET search' => 'search'
                     ],
                 ],
 			]
 		],
-		'request' => [
-            'cookieValidationKey'=>'asdf!@#$%^&*()',
-			'parsers' => [
-				'application/json' => 'yii\web\JsonParser',
-			]
-		],
+        'request' => [
+            'class' => '\yii\web\Request',
+            'enableCookieValidation' => false,
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
+        ],
 		'response' => [
 			'class' => 'yii\web\Response',
 			'formatters' => [

@@ -60,5 +60,7 @@ class PageController extends \api\components\ActiveController
         return array_merge(parent::actions(), $actions);
     }
 
-
+    public function actionUpdate() {
+        return ['bla'];
+    }
 }

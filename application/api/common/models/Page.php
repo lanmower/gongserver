@@ -19,6 +19,34 @@ class Page extends \api\components\db\ActiveRecord
 		return '{{page}}';
 	}
 
+    public function actionCreate() {
+        return 'test';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['title', 'page', 'user_id', 'location'], 'required'],
+            [['title', 'page'], 'string'],
+            [['title', 'page', 'location'], 'safe'],
+            [['user_id'], 'integer']
+        ];
+    }
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'title' => 'Title',
+            'content' => 'Content',
+            'user_id' => 'User ID',
+        ];
+    }
 	public static function find() {
 		return new PageQuery(get_called_class());
 	}
