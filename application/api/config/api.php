@@ -8,7 +8,7 @@ return [
 
     'components' => [
 		'urlManager' => [
-			//'enablePrettyUrl' => true,
+			'enablePrettyUrl' => true,
 			'rules' => [
                 'OPTIONS /oauth2/<action:\w+>' => 'oauth/options',
 				'POST /oauth2/<action:\w+>' => 'oauth/<action>',
