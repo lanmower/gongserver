@@ -39,8 +39,8 @@ class OAuth2AccessFilter extends \yii\base\ActionFilter
 			/** @var \filsh\yii2\oauth2server\Module $oauth_module */
 			$oauth_module = Yii::$app->getModule('oauth2');
 			$query_param_auth = ['class' => QueryParamAuth::className()];
-			if (!empty($oauth_module->options['token_param_name'])) {
-				$query_param_auth['tokenParam'] = $oauth_module->options['token_param_name'];
+			if (!empty($oauth_module->token_param_name)) {
+				$query_param_auth['tokenParam'] = $oauth_module->token_param_name;
 			}
 
 			$auth_behavior = $this->owner->getBehavior('authenticator');

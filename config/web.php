@@ -20,19 +20,11 @@ $config = [
 				[
 					'class' => 'yii\rest\UrlRule',
 					'controller' => 'v1/post',
-
-					'extraPatterns' => [
-						//'GET custom' => 'custom',
-						//'GET protected' => 'protected',
-					],
 				],
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'v1/page',
                     'pluralize' => false,
-                    'extraPatterns' => [
-                        'GET search' => 'search'
-                    ],
                 ],
 			]
 		],
@@ -90,6 +82,8 @@ $config = [
     ],
     'modules' => [		'oauth2' => [
         'class' => 'filsh\yii2\oauth2server\Module',
+        'tokenParamName' => 'accessToken',
+        'tokenAccessLifetime' => 3600 * 24,
         'storageMap' => [
             'user_credentials' => 'app\models\User'
         ],
@@ -113,15 +107,6 @@ $config = [
     ],
     'params' => $params,
 ];
-
-if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
-    $config['bootstrap'][] = 'debug';
-    $config['modules']['debug'] = 'yii\debug\Module';
-
-    $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = 'yii\gii\Module';
-}
 
 return $config;
 
