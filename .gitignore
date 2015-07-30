@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 # yii console command
 /yii
 
-=======
->>>>>>> ba2d298964e211c6534a962e677e394836cef3c6
 # phpstorm project files
 .idea
 
@@ -23,10 +20,7 @@ Thumbs.db
 
 # composer itself is not needed
 composer.phar
-<<<<<<< HEAD
 composer.lock
-=======
->>>>>>> ba2d298964e211c6534a962e677e394836cef3c6
 
 # Mac DS_Store Files
 .DS_Store
@@ -35,7 +29,4 @@ composer.lock
 phpunit.phar
 # local phpunit config
 /phpunit.xml
-<<<<<<< HEAD
 runtime
-=======
->>>>>>> ba2d298964e211c6534a962e677e394836cef3c6
