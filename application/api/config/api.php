@@ -9,8 +9,18 @@ return [
     'components' => [
 		'urlManager' => [
 			'enablePrettyUrl' => true,
-			'rules' => [
-				'POST /oauth2/<action:\w+>' => 'oauth2/default/<action>',
+            'rules' => [
+                'OPTIONS /oauth2/<action:\w+>' => 'oauth/options',
+                'POST /oauth2/<action:\w+>' => 'oauth/<action>',
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/post',
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/page',
+                    'pluralize' => false,
+                ],
 				[
 					'class' => 'yii\rest\UrlRule',
 					'controller' => 'v1/product',
@@ -22,6 +32,7 @@ return [
 			]
 		],
 		'request' => [
+            'enableCookieValidation' => false,
 			'parsers' => [
 				'application/json' => 'yii\web\JsonParser',
 			]

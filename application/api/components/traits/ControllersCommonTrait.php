@@ -8,6 +8,7 @@
  */
 
 namespace api\components\traits;
+use api\components\Cors;
 use Yii;
 use api\components\filters\OAuth2AccessFilter;
 use filsh\yii2\oauth2server\filters\ErrorToExceptionFilter;
@@ -28,13 +29,16 @@ trait ControllersCommonTrait
 		$behaviors = ArrayHelper::merge(
 			[
 				'contentNegotiator' => $content_negotiator,
+                'corsFilter'=>[
+                    "class" => Cors::className(),
+                ],
 				'oauth2access' => [ // should be before "authenticator" filter
 					'class' => OAuth2AccessFilter::className()
 				],
-				'exceptionFilter' => [
+                'exceptionFilter' => [
 					'class' => ErrorToExceptionFilter::className()
 				],
-			],
+            ],
 			$behaviors,
 			[
 				'access' => [ // need to set after contentNegotiator filter for caching errors
