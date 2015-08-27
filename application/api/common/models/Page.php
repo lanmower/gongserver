@@ -29,7 +29,7 @@ class Page extends \api\components\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'page', 'user_id', 'location'], 'required'],
+            [['title', 'page', 'location'], 'required'],
             [['title', 'page'], 'string'],
             [['title', 'page', 'location'], 'safe'],
             [['user_id'], 'integer']
