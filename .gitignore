@@ -17,7 +17,7 @@ Thumbs.db
 
 # composer vendor dir
 /vendor
-
+/application/api/www/vendor
 # composer itself is not needed
 composer.phar
 composer.lock
