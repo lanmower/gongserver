@@ -19,7 +19,9 @@
   "require": {
     "php": ">=5.4.0",
     "yiisoft/yii2": "*",
-    "filsh/yii2-oauth2-server": "*"
+    "filsh/yii2-oauth2-server": "*",
+    "google/apiclient": "*",
+    "firebase/php-jwt": "*"
   },
   "extra": {
     "writable": [
@@ -28,5 +30,9 @@
     "executable": [
       "application/api/yii"
     ]
+  },
+  "require-dev": {
+    "yiisoft/yii2-gii": "^2.0@dev",
+    "firebase/php-jwt": "dev-master"
   }
 }

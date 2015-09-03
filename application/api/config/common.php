@@ -20,17 +20,12 @@ return [
 				'user_credentials' => 'api\models\User'
 			],
 			'grantTypes' => [
-				'client_credentials' => [
-					'class' => 'OAuth2\GrantType\ClientCredentials',
-					'allow_public_clients' => false
+				'jwt_bearer' => [
+					'class' => 'OAuth2\GrantType\JwtBearer',
 				],
 				'user_credentials' => [
 					'class' => 'OAuth2\GrantType\UserCredentials'
 				],
-				'refresh_token' => [
-					'class' => 'OAuth2\GrantType\RefreshToken',
-					'always_issue_new_refresh_token' => true
-				]
 			],
 		],
 		'v1' => [

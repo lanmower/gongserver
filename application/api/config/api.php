@@ -5,7 +5,7 @@ return [
 
     'controllerNamespace' => 'api\controllers',
 	'defaultRoute' => 'product',
-
+    'bootstrap' => ['gii'],
     'components' => [
 		'urlManager' => [
 			'enablePrettyUrl' => true,
@@ -69,4 +69,5 @@ return [
         ],
     ],
     'params' => [],
+    'modules' => ['gii'=>['class' => 'yii\gii\Module']]
 ];
