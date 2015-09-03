@@ -21,7 +21,8 @@
     "yiisoft/yii2": "*",
     "filsh/yii2-oauth2-server": "*",
     "google/apiclient": "*",
-    "firebase/php-jwt": "*"
+    "firebase/php-jwt": "*",
+    "yiisoft/yii2-gii": "~2.0.0"
   },
   "extra": {
     "writable": [
