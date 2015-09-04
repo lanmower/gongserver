@@ -5,6 +5,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
+use yii\helpers\VarDumper;
 
 /**
  * User model
@@ -15,7 +16,6 @@ use yii\db\Expression;
  * @property string $password_reset_token
  * @property string $email
  * @property string $auth_key
- * @property integer $role
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
@@ -25,7 +25,6 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface, \OAuth2\S
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
-    const ROLE_USER = 10;
 
     /**
      * @inheritdoc
@@ -213,4 +212,10 @@ class User extends ActiveRecord implements \yii\web\IdentityInterface, \OAuth2\S
 		$user = static::findByEmail($username);
 		return ['user_id' => $user->getId()];
 	}
+
+    private $roles = null;
+    public function getUserRoles() {
+        if(!$this->roles) $this->roles = \Yii::$app->authManager->getRolesByUser($this->id);
+        return $this->roles;
+    }
 }

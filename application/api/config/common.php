@@ -9,30 +9,6 @@ return [
 	'vendorPath' => dirname(dirname(dirname(__DIR__))) . '/vendor',
 
 	'bootstrap' => ['log'],
-    'modules' => [
-		'oauth2' => [
-			'class' => 'filsh\yii2\oauth2server\Module',
-			'options' => [
-				'token_param_name' => 'access_token',
-				'access_lifetime' => 3600 * 24
-			],
-			'storageMap' => [
-				'user_credentials' => 'api\models\User'
-			],
-			'grantTypes' => [
-				'jwt_bearer' => [
-					'class' => 'OAuth2\GrantType\JwtBearer',
-				],
-				'user_credentials' => [
-					'class' => 'OAuth2\GrantType\UserCredentials'
-				],
-			],
-		],
-		'v1' => [
-			'class' => 'api\versions\v1\Module',
-		],
-
-	],
     'components' => [
 		'db' => [
 			'class' => 'yii\db\Connection',
@@ -49,7 +25,7 @@ return [
             'targets' => [
                 [
                     'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
+                    'levels' => ['error','trace','info','warning'],
                 ],
             ],
         ],

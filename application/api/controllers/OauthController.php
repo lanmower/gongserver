@@ -4,7 +4,7 @@ namespace api\controllers;
 
 use api\components\Cors;
 use api\models\User;
-use app\models\GoogleToken;
+use api\models\GoogleToken;
 use filsh\yii2\oauth2server\controllers\DefaultController;
 use filsh\yii2\oauth2server\models\OauthAccessTokens;
 
@@ -13,7 +13,6 @@ use yii;
 
 class OauthController extends DefaultController
 {
-
     public function init(){
         parent::init();
         $this->module = Yii::$app->getModule('oauth2');
@@ -51,48 +50,25 @@ class OauthController extends DefaultController
 
 
     public function actionToken() {
-        return parent::actionToken();
+        $return = parent::actionToken();
+        $connection = Yii::$app->getDb();
+        if(isset($return['refresh_token'])) {
+            unset($return['refresh_token']);
+        }
+        if(isset($return['access_token'])) {
+            $command = $connection->createCommand('
+                SELECT user_id
+                FROM oauth_access_tokens
+                WHERE access_token = :access_token', [':access_token' => $return['access_token']]);
+
+            $result = $command->queryOne();
+            $return['roles'] = [];
+            foreach( \Yii::$app->authManager->getRolesByUser($result['user_id']) as $role) {
+                $return['roles'][] = $role->name;
+            }
+        }
+        return $return;
     }
-    /**
-     * Generate a JWT
-     *
-     * @param $privateKey The private key to use to sign the token
-     * @param $iss The issuer, usually the client_id
-     * @param $sub The subject, usually a user_id
-     * @param $aud The audience, usually the URI for the oauth server
-     * @param $exp The expiration date. If the current time is greater than the exp, the JWT is invalid
-     * @param $nbf The "not before" time. If the current time is less than the nbf, the JWT is invalid
-     * @param $jti The "jwt token identifier", or nonce for this JWT
-     *
-     * @return string
-     */
-    private function generateJWT($privateKey, $iss, $sub, $aud, $exp = null, $nbf = null, $jti = null)
-    {
-        if (!$exp) {
-            $exp = time() + 1000;
-        }
-
-        $params = array(
-            'iss' => $iss,
-            'sub' => $sub,
-            'aud' => $aud,
-            'exp' => $exp,
-            'iat' => time(),
-        );
-
-        if ($nbf) {
-            $params['nbf'] = $nbf;
-        }
-
-        if ($jti) {
-            $params['jti'] = $jti;
-        }
-
-        $jwtUtil = new OAuth2\Encryption\Jwt();
-
-        return $jwtUtil->encode($params, $privateKey, 'RS256');
-    }
-
     public function actionLogout() {
         $request = Yii::$app->getRequest();
         $authHeader = $request->getHeaders()->get('Authorization');
@@ -133,20 +109,23 @@ class OauthController extends DefaultController
         $ticket = $client->verifyIdToken($access_token['id_token']);
         $ticketData = $ticket->getAttributes()['payload'];
         if($ticketData['email']) {
-            $user = User::find(['email' => $ticketData['email']])->one();
+            $user = User::find()->where('email = :email', [':email' => $ticketData['email']])->one();
             //store google token
-            $token = GoogleToken::find(['user_id' => $user->id])->one();
+            $token = null;//GoogleToken::find(['user_id' => $user->id])->one();
             if (!$token) {
                 $token = new GoogleToken();
             }
             $token->attributes = $access_token;
             $token->user_id = $user->id;
             $token->save();
-
             $code = $this->generateAccessToken();
             $data = [':access_token'=>$code, ':client_id'=>"testclient", ':expires'=> date( "Y-m-d H:i:s", time()+4*60*60 ), ':user_id'=>$user->id, ':scope'=>'custom'];
             \Yii::$app->db->createCommand('INSERT INTO oauth_access_tokens (access_token, client_id, user_id, expires, scope) VALUES (:access_token, :client_id, :user_id, :expires, :scope)', $data)->execute();
-            return ['access_token'=>$code, 'expires'=> 3600];
+            $roles = [];
+            foreach( \Yii::$app->authManager->getRolesByUser($user->id) as $role) {
+                $roles[] = $role->name;
+            }
+            return ['access_token'=>$code, 'expires'=> 3600, 'roles'=>$roles];
         } else {
             return false;
         }

@@ -54,4 +54,9 @@ class Page extends \api\components\db\ActiveRecord
 
 class PageQuery extends \api\components\db\ActiveQuery
 {
+    public function init()
+    {
+        $this->addConditions('read');
+        parent::init();
+    }
 }

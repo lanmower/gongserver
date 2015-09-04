@@ -5,8 +5,10 @@ return [
 
     'controllerNamespace' => 'api\controllers',
 	'defaultRoute' => 'product',
-    'bootstrap' => ['gii'],
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
 		'urlManager' => [
 			'enablePrettyUrl' => true,
             'rules' => [
@@ -69,5 +71,29 @@ return [
         ],
     ],
     'params' => [],
-    'modules' => ['gii'=>['class' => 'yii\gii\Module']]
+    'modules' => [
+        'oauth2' => [
+            'class' => 'filsh\yii2\oauth2server\Module',
+            'options' => [
+                'token_param_name' => 'access_token',
+                'access_lifetime' => 3600 * 24
+            ],
+            'storageMap' => [
+                'user_credentials' => 'api\models\User'
+            ],
+            'grantTypes' => [
+                'jwt_bearer' => [
+                    'class' => 'OAuth2\GrantType\JwtBearer',
+                ],
+                'user_credentials' => [
+                    'class' => 'OAuth2\GrantType\UserCredentials'
+                ],
+            ],
+        ],
+        'v1' => [
+            'class' => 'api\versions\v1\Module',
+        ],
+
+    ],
+    //'modules' => ['gii'=>['class' => 'yii\gii\Module']]
 ];
